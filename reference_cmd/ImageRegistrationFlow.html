@@ -1,0 +1,227 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>DIPY &#8212; dipy 0.15.0dev documentation</title>
+    <link rel="stylesheet" href="../_static/dipy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="keywords" content="DIPY, dMRI, DTI, DSI, diffusion MRI, Tensor,
+  neuroimaging, python, neuroscience, Eleftherios, Garyfallidis, tractography,
+  streamlines, fiber tracking">
+
+  </head><body>
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+ <a href="../index.html">
+  <img src="../_static/dipy-banner.png" alt="DIPY logo"  border="0" />
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+  <li><a href="../index.html">Home</a> |&nbsp;</li>
+  <li><a href="../stateoftheart.html">Overview</a> |&nbsp;</li>
+  <li><a href="../examples_index.html">Gallery</a> |&nbsp;</li>
+  <li><a href="../installation.html">Download</a> |&nbsp;</li>
+  <li><a href="../subscribe.html">Subscribe</a> |&nbsp;</li>
+  <li><a href="../developers.html">Developers</a> |&nbsp;</li>
+  <li><a href="../cite.html">Cite</a> &nbsp;</li>
+ 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+
+
+<h4> Site Navigation </h4>
+  <ul>
+    <li><a href="../documentation.html">Documentation</a></li>
+    <li><a href="../devel/index.html">Development</a></li>
+  </ul>
+
+<h4> NIPY Community </h4>
+  <ul class="simple">
+    <li><a class="reference external"
+	href="http://nipy.org/">Community Home</a></li>
+    <li><a class="reference external"
+	href="http://nipy.org/">NIPY Projects</a></li>
+    <li><a class="reference external"
+	href="https://mail.python.org/mailman/listinfo/neuroimaging">Mailing List</a></li>
+    <li><a class="reference external"
+	href="http://nipy.org/nipy/license.html">License</a></li>
+  </ul>
+
+
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ImageRegistrationFlow</a><ul>
+<li><a class="reference internal" href="#parameters">Parameters</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/reference_cmd/ImageRegistrationFlow.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="imageregistrationflow">
+<h1>ImageRegistrationFlow<a class="headerlink" href="#imageregistrationflow" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>static_img_file <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd>Path to the static image file.</dd>
+<dt>moving_img_file <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd>Path to the moving image file.</dd>
+<dt>transform <span class="classifier-delimiter">:</span> <span class="classifier">string, optional</span></dt>
+<dd><dl class="first last docutils">
+<dt>com: center of mass, trans: translation, rigid: rigid body</dt>
+<dd>affine: full affine including translation, rotation, shearing and
+scaling (default ‘affine’).</dd>
+</dl>
+</dd>
+<dt>nbins <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
+<dd><dl class="first last docutils">
+<dt>Number of bins to discretize the joint and marginal PDF</dt>
+<dd>(default ‘32’).</dd>
+</dl>
+</dd>
+<dt>sampling_prop <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
+<dd><dl class="first last docutils">
+<dt>Number ([0-100]) of voxels for calculating the PDF.</dt>
+<dd>‘None’ implies all voxels (default ‘None’).</dd>
+</dl>
+</dd>
+<dt>metric <span class="classifier-delimiter">:</span> <span class="classifier">string, optional</span></dt>
+<dd><dl class="first last docutils">
+<dt>Similarity metric for gathering mutual information</dt>
+<dd>(default ‘mi’ , Mutual Information metric).</dd>
+</dl>
+</dd>
+<dt>level_iters <span class="classifier-delimiter">:</span> <span class="classifier">variable int, optional</span></dt>
+<dd><dl class="first last docutils">
+<dt>The number of iterations at each scale of the scale space.</dt>
+<dd><p class="first"><cite>level_iters[0]</cite> corresponds to the coarsest scale,
+<cite>level_iters[-1]</cite> the finest, where n is the length of the</p>
+<blockquote class="last">
+<div>sequence. By default, a 3-level scale space with iterations
+sequence equal to [10000, 1000, 100] will be used.</div></blockquote>
+</dd>
+</dl>
+</dd>
+<dt>sigmas <span class="classifier-delimiter">:</span> <span class="classifier">variable floats, optional</span></dt>
+<dd><dl class="first last docutils">
+<dt>Custom smoothing parameter to build the scale space (one parameter</dt>
+<dd>for each scale). By default, the sequence of sigmas will be
+[3, 1, 0].</dd>
+</dl>
+</dd>
+<dt>factors <span class="classifier-delimiter">:</span> <span class="classifier">variable floats, optional</span></dt>
+<dd><dl class="first last docutils">
+<dt>Custom scale factors to build the scale space (one factor for each</dt>
+<dd>scale). By default, the sequence of factors will be [4, 2, 1].</dd>
+</dl>
+</dd>
+<dt>progressive <span class="classifier-delimiter">:</span> <span class="classifier">boolean, optional</span></dt>
+<dd>Enable/Disable the progressive registration (default ‘True’).</dd>
+<dt>save_metric <span class="classifier-delimiter">:</span> <span class="classifier">boolean, optional</span></dt>
+<dd>If true, quality assessment metric are saved in
+‘quality_metric.txt’ (default ‘False’).</dd>
+<dt>out_dir <span class="classifier-delimiter">:</span> <span class="classifier">string, optional</span></dt>
+<dd><dl class="first last docutils">
+<dt>Directory to save the transformed image and the affine matrix</dt>
+<dd>(default ‘’).</dd>
+</dl>
+</dd>
+<dt>out_moved <span class="classifier-delimiter">:</span> <span class="classifier">string, optional</span></dt>
+<dd><dl class="first last docutils">
+<dt>Name for the saved transformed image</dt>
+<dd>(default ‘moved.nii.gz’).</dd>
+</dl>
+</dd>
+<dt>out_affine <span class="classifier-delimiter">:</span> <span class="classifier">string, optional</span></dt>
+<dd><dl class="first last docutils">
+<dt>Name for the saved affine matrix</dt>
+<dd>(default ‘affine.txt’).</dd>
+</dl>
+</dd>
+<dt>out_quality <span class="classifier-delimiter">:</span> <span class="classifier">string, optional</span></dt>
+<dd><dl class="first last docutils">
+<dt>Name of the file containing the saved quality</dt>
+<dd>metric (default ‘quality_metric.txt’).</dd>
+</dl>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+  <li><a href="../index.html">Home</a> |&nbsp;</li>
+  <li><a href="../stateoftheart.html">Overview</a> |&nbsp;</li>
+  <li><a href="../examples_index.html">Gallery</a> |&nbsp;</li>
+  <li><a href="../installation.html">Download</a> |&nbsp;</li>
+  <li><a href="../subscribe.html">Subscribe</a> |&nbsp;</li>
+  <li><a href="../developers.html">Developers</a> |&nbsp;</li>
+  <li><a href="../cite.html">Cite</a> &nbsp;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2019, dipy developers &lt;neuroimaging@python.org&gt;.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
+    </div>
+  </body>
+</html>

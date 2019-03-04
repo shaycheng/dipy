@@ -1,0 +1,383 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>DIPY &#8212; dipy 0.15.0dev documentation</title>
+    <link rel="stylesheet" href="../_static/dipy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="keywords" content="DIPY, dMRI, DTI, DSI, diffusion MRI, Tensor,
+  neuroimaging, python, neuroscience, Eleftherios, Garyfallidis, tractography,
+  streamlines, fiber tracking">
+
+  </head><body>
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+ <a href="../index.html">
+  <img src="../_static/dipy-banner.png" alt="DIPY logo"  border="0" />
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+  <li><a href="../index.html">Home</a> |&nbsp;</li>
+  <li><a href="../stateoftheart.html">Overview</a> |&nbsp;</li>
+  <li><a href="../examples_index.html">Gallery</a> |&nbsp;</li>
+  <li><a href="../installation.html">Download</a> |&nbsp;</li>
+  <li><a href="../subscribe.html">Subscribe</a> |&nbsp;</li>
+  <li><a href="../developers.html">Developers</a> |&nbsp;</li>
+  <li><a href="../cite.html">Cite</a> &nbsp;</li>
+ 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+
+
+<h4> Site Navigation </h4>
+  <ul>
+    <li><a href="../documentation.html">Documentation</a></li>
+    <li><a href="../devel/index.html">Development</a></li>
+  </ul>
+
+<h4> NIPY Community </h4>
+  <ul class="simple">
+    <li><a class="reference external"
+	href="http://nipy.org/">Community Home</a></li>
+    <li><a class="reference external"
+	href="http://nipy.org/">NIPY Projects</a></li>
+    <li><a class="reference external"
+	href="https://mail.python.org/mailman/listinfo/neuroimaging">Mailing List</a></li>
+    <li><a class="reference external"
+	href="http://nipy.org/nipy/license.html">License</a></li>
+  </ul>
+
+
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">User Interfaces</a><ul>
+<li><a class="reference internal" href="#shapes">Shapes</a></li>
+<li><a class="reference internal" href="#image">Image</a></li>
+<li><a class="reference internal" href="#panel-with-buttons-and-text">Panel with buttons and text</a></li>
+<li><a class="reference internal" href="#cube-and-sliders">Cube and sliders</a></li>
+<li><a class="reference internal" href="#range-slider">Range Slider</a></li>
+<li><a class="reference internal" href="#select-menu">Select menu</a></li>
+<li><a class="reference internal" href="#show-manager">Show Manager</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples_built/viz_ui.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="user-interfaces">
+<span id="example-viz-ui"></span><h1>User Interfaces<a class="headerlink" href="#user-interfaces" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how to use the UI API. We will demonstrate how to create
+several DIPY UI elements, then use a list box to toggle which element is shown.</p>
+<p>First, a bunch of imports.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dipy.viz</span> <span class="k">import</span> <span class="n">read_viz_icons</span><span class="p">,</span> <span class="n">fetch_viz_icons</span>
+
+<span class="kn">from</span> <span class="nn">dipy.viz</span> <span class="k">import</span> <span class="n">ui</span><span class="p">,</span> <span class="n">window</span>
+</pre></div>
+</div>
+<div class="section" id="shapes">
+<h2>Shapes<a class="headerlink" href="#shapes" title="Permalink to this headline">¶</a></h2>
+<p>Let’s start by drawing some simple shapes. First, a rectangle.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rect</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">Rectangle2D</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Then we can draw a solid circle, or disk.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disk</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">Disk2D</span><span class="p">(</span><span class="n">outer_radius</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Add an inner radius to make a ring.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ring</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">Disk2D</span><span class="p">(</span><span class="n">outer_radius</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">inner_radius</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span>
+                 <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="image">
+<h2>Image<a class="headerlink" href="#image" title="Permalink to this headline">¶</a></h2>
+<p>Now let’s display an image. First we need to fetch some icons that are included
+in DIPY.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fetch_viz_icons</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Now we can create an image container.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">ImageContainer2D</span><span class="p">(</span><span class="n">img_path</span><span class="o">=</span><span class="n">read_viz_icons</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="s1">&#39;home3.png&#39;</span><span class="p">),</span>
+                          <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mi">450</span><span class="p">,</span> <span class="mi">350</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="panel-with-buttons-and-text">
+<h2>Panel with buttons and text<a class="headerlink" href="#panel-with-buttons-and-text" title="Permalink to this headline">¶</a></h2>
+<p>Let’s create some buttons and text and put them in a panel. First we’ll
+make the panel.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">panel</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">Panel2D</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+<span class="n">panel</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then we’ll make two text labels and place them on the panel.
+Note that we specifiy the position with integer numbers of pixels.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">TextBlock2D</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s1">&#39;Click me&#39;</span><span class="p">)</span>
+<span class="n">text2</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">TextBlock2D</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s1">&#39;Me too&#39;</span><span class="p">)</span>
+<span class="n">panel</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="n">panel</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">text2</span><span class="p">,</span> <span class="p">(</span><span class="mi">180</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Then we’ll create two buttons and add them to the panel.</p>
+<p>Note that here we specify the positions with floats. In this case, these are
+percentages of the panel size.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">button_example</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">Button2D</span><span class="p">(</span>
+    <span class="n">icon_fnames</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;square&#39;</span><span class="p">,</span> <span class="n">read_viz_icons</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="s1">&#39;stop2.png&#39;</span><span class="p">))])</span>
+
+<span class="n">icon_files</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">icon_files</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;down&#39;</span><span class="p">,</span> <span class="n">read_viz_icons</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="s1">&#39;circle-down.png&#39;</span><span class="p">)))</span>
+<span class="n">icon_files</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">read_viz_icons</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="s1">&#39;circle-left.png&#39;</span><span class="p">)))</span>
+<span class="n">icon_files</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;up&#39;</span><span class="p">,</span> <span class="n">read_viz_icons</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="s1">&#39;circle-up.png&#39;</span><span class="p">)))</span>
+<span class="n">icon_files</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">read_viz_icons</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="s1">&#39;circle-right.png&#39;</span><span class="p">)))</span>
+
+<span class="n">second_button_example</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">Button2D</span><span class="p">(</span><span class="n">icon_fnames</span><span class="o">=</span><span class="n">icon_files</span><span class="p">)</span>
+
+<span class="n">panel</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">button_example</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.33</span><span class="p">))</span>
+<span class="n">panel</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">second_button_example</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.66</span><span class="p">,</span> <span class="mf">0.33</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>We can add a callback to each button to perform some action.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">change_text_callback</span><span class="p">(</span><span class="n">i_ren</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">button</span><span class="p">):</span>
+    <span class="n">text</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;Clicked!&#39;</span>
+    <span class="n">i_ren</span><span class="o">.</span><span class="n">force_render</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">change_icon_callback</span><span class="p">(</span><span class="n">i_ren</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">button</span><span class="p">):</span>
+    <span class="n">button</span><span class="o">.</span><span class="n">next_icon</span><span class="p">()</span>
+    <span class="n">i_ren</span><span class="o">.</span><span class="n">force_render</span><span class="p">()</span>
+
+
+<span class="n">button_example</span><span class="o">.</span><span class="n">on_left_mouse_button_clicked</span> <span class="o">=</span> <span class="n">change_text_callback</span>
+<span class="n">second_button_example</span><span class="o">.</span><span class="n">on_left_mouse_button_pressed</span> <span class="o">=</span> <span class="n">change_icon_callback</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cube-and-sliders">
+<h2>Cube and sliders<a class="headerlink" href="#cube-and-sliders" title="Permalink to this headline">¶</a></h2>
+<p>Let’s add a cube to the scene and control it with sliders.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cube_maker</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
+    <span class="n">cube</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">vtk</span><span class="o">.</span><span class="n">vtkCubeSource</span><span class="p">()</span>
+    <span class="n">cube</span><span class="o">.</span><span class="n">SetXLength</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">cube</span><span class="o">.</span><span class="n">SetYLength</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">cube</span><span class="o">.</span><span class="n">SetZLength</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">center</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cube</span><span class="o">.</span><span class="n">SetCenter</span><span class="p">(</span><span class="o">*</span><span class="n">center</span><span class="p">)</span>
+    <span class="n">cube_mapper</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">vtk</span><span class="o">.</span><span class="n">vtkPolyDataMapper</span><span class="p">()</span>
+    <span class="n">cube_mapper</span><span class="o">.</span><span class="n">SetInputConnection</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">GetOutputPort</span><span class="p">())</span>
+    <span class="n">cube_actor</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">vtk</span><span class="o">.</span><span class="n">vtkActor</span><span class="p">()</span>
+    <span class="n">cube_actor</span><span class="o">.</span><span class="n">SetMapper</span><span class="p">(</span><span class="n">cube_mapper</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cube_actor</span><span class="o">.</span><span class="n">GetProperty</span><span class="p">()</span><span class="o">.</span><span class="n">SetColor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cube_actor</span>
+
+
+<span class="n">cube</span> <span class="o">=</span> <span class="n">cube_maker</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Now we’ll add two sliders: one circular and one linear.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ring_slider</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">RingSlider2D</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">740</span><span class="p">,</span> <span class="mi">400</span><span class="p">),</span> <span class="n">initial_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                              <span class="n">text_template</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{angle:5.1f}</span><span class="s2">°&quot;</span><span class="p">)</span>
+
+<span class="n">line_slider</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">LineSlider2D</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span> <span class="n">initial_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                              <span class="n">min_value</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can use a callback to rotate the cube with the ring slider.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">rotate_cube</span><span class="p">(</span><span class="n">slider</span><span class="p">):</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">slider</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">previous_angle</span> <span class="o">=</span> <span class="n">slider</span><span class="o">.</span><span class="n">previous_value</span>
+    <span class="n">rotation_angle</span> <span class="o">=</span> <span class="n">angle</span> <span class="o">-</span> <span class="n">previous_angle</span>
+    <span class="n">cube</span><span class="o">.</span><span class="n">RotateX</span><span class="p">(</span><span class="n">rotation_angle</span><span class="p">)</span>
+
+
+<span class="n">ring_slider</span><span class="o">.</span><span class="n">on_change</span> <span class="o">=</span> <span class="n">rotate_cube</span>
+</pre></div>
+</div>
+<p>Similarly, we can translate the cube with the line slider.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">translate_cube</span><span class="p">(</span><span class="n">slider</span><span class="p">):</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">slider</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">cube</span><span class="o">.</span><span class="n">SetPosition</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+
+<span class="n">line_slider</span><span class="o">.</span><span class="n">on_change</span> <span class="o">=</span> <span class="n">translate_cube</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="range-slider">
+<h2>Range Slider<a class="headerlink" href="#range-slider" title="Permalink to this headline">¶</a></h2>
+<p>Finally, we can add a range slider. This element is composed of two sliders.
+The first slider has two handles which let you set the range of the second.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">range_slider</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">RangeSlider</span><span class="p">(</span>
+    <span class="n">line_width</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">handle_side</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">range_slider_center</span><span class="o">=</span><span class="p">(</span><span class="mi">550</span><span class="p">,</span> <span class="mi">450</span><span class="p">),</span>
+    <span class="n">value_slider_center</span><span class="o">=</span><span class="p">(</span><span class="mi">550</span><span class="p">,</span> <span class="mi">350</span><span class="p">),</span> <span class="n">length</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">max_value</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">range_precision</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">value_precision</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">shape</span><span class="o">=</span><span class="s2">&quot;square&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="select-menu">
+<h2>Select menu<a class="headerlink" href="#select-menu" title="Permalink to this headline">¶</a></h2>
+<p>We just added many examples. If we showed them all at once, they would fill the
+screen. Let’s make a simple menu to choose which example is shown.</p>
+<p>We’ll first make a list of the examples.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">examples</span> <span class="o">=</span> <span class="p">[[</span><span class="n">rect</span><span class="p">],</span> <span class="p">[</span><span class="n">disk</span><span class="p">,</span> <span class="n">ring</span><span class="p">],</span> <span class="p">[</span><span class="n">img</span><span class="p">],</span> <span class="p">[</span><span class="n">panel</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">ring_slider</span><span class="p">,</span> <span class="n">line_slider</span><span class="p">],</span> <span class="p">[</span><span class="n">range_slider</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Now we’ll make a function to hide all the examples. Then we’ll call it so that
+none are shown initially.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hide_all_examples</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">example</span> <span class="ow">in</span> <span class="n">examples</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">example</span><span class="p">:</span>
+            <span class="n">element</span><span class="o">.</span><span class="n">set_visibility</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">cube</span><span class="o">.</span><span class="n">SetVisibility</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+
+<span class="n">hide_all_examples</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To make the menu, we’ll first need to create a list of labels which correspond
+with the examples.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Rectangle&#39;</span><span class="p">,</span> <span class="s1">&#39;Disks&#39;</span><span class="p">,</span> <span class="s1">&#39;Image&#39;</span><span class="p">,</span> <span class="s2">&quot;Button Panel&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Line and Ring Slider&quot;</span><span class="p">,</span> <span class="s2">&quot;Range Slider&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Now we can create the menu.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">listbox</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">ListBox2D</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span>
+                       <span class="n">multiselection</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then we will use a callback to show the correct example when a label is
+clicked.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">display_element</span><span class="p">():</span>
+    <span class="n">hide_all_examples</span><span class="p">()</span>
+    <span class="n">example</span> <span class="o">=</span> <span class="n">examples</span><span class="p">[</span><span class="n">values</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">listbox</span><span class="o">.</span><span class="n">selected</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">example</span><span class="p">:</span>
+        <span class="n">element</span><span class="o">.</span><span class="n">set_visibility</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">listbox</span><span class="o">.</span><span class="n">selected</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">cube</span><span class="o">.</span><span class="n">SetVisibility</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="n">listbox</span><span class="o">.</span><span class="n">on_change</span> <span class="o">=</span> <span class="n">display_element</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="show-manager">
+<h2>Show Manager<a class="headerlink" href="#show-manager" title="Permalink to this headline">¶</a></h2>
+<p>Now that all the elements have been initialised, we add them to the show
+manager.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">current_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">800</span><span class="p">)</span>
+<span class="n">renderer</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">Renderer</span><span class="p">()</span>
+<span class="n">show_manager</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">ShowManager</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">current_size</span><span class="p">,</span>
+                                  <span class="n">title</span><span class="o">=</span><span class="s2">&quot;DIPY UI Example&quot;</span><span class="p">)</span>
+<span class="n">show_manager</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+<span class="n">renderer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">listbox</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">example</span> <span class="ow">in</span> <span class="n">examples</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">example</span><span class="p">:</span>
+        <span class="n">renderer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+<span class="n">renderer</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
+<span class="n">renderer</span><span class="o">.</span><span class="n">reset_camera</span><span class="p">()</span>
+<span class="n">renderer</span><span class="o">.</span><span class="n">set_camera</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
+<span class="n">renderer</span><span class="o">.</span><span class="n">reset_clipping_range</span><span class="p">()</span>
+<span class="n">renderer</span><span class="o">.</span><span class="n">azimuth</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">interactive</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">if</span> <span class="n">interactive</span><span class="p">:</span>
+    <span class="n">show_manager</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">window</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">current_size</span><span class="p">,</span> <span class="n">out_path</span><span class="o">=</span><span class="s2">&quot;viz_ui.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id1">
+<img alt="../_images/viz_ui.png" src="../_images/viz_ui.png" />
+<p class="caption"><span class="caption-text"><strong>User interface example</strong>.</span></p>
+</div>
+<div class="admonition-example-source-code admonition">
+<p class="first admonition-title">Example source code</p>
+<p class="last">You can download <a class="reference download internal" href="../_downloads/viz_ui.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">the</span> <span class="pre">full</span> <span class="pre">source</span> <span class="pre">code</span> <span class="pre">of</span> <span class="pre">this</span> <span class="pre">example</span></code></a>.
+This same script is also included in the dipy source distribution under the
+<code class="file docutils literal notranslate"><span class="pre">doc/examples/</span></code> directory.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+  <li><a href="../index.html">Home</a> |&nbsp;</li>
+  <li><a href="../stateoftheart.html">Overview</a> |&nbsp;</li>
+  <li><a href="../examples_index.html">Gallery</a> |&nbsp;</li>
+  <li><a href="../installation.html">Download</a> |&nbsp;</li>
+  <li><a href="../subscribe.html">Subscribe</a> |&nbsp;</li>
+  <li><a href="../developers.html">Developers</a> |&nbsp;</li>
+  <li><a href="../cite.html">Cite</a> &nbsp;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2019, dipy developers &lt;neuroimaging@python.org&gt;.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
+    </div>
+  </body>
+</html>
